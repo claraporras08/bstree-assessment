@@ -37,12 +37,14 @@ export default function BSTVisualizer() {
   const [foundNode, setFoundNode]         = useState(null);
   const [errorMessage, setErrorMessage]   = useState("");
 
-  // ── Insert ──────────────────────────────────────────────────────────────────
-  const handleInsert = () => {
-    const parsed = parseInt(inputValue, 10);
+// Se usa useMemo y no useCallback porque traversalResult es un valor calculado,
+// no una función. useMemo cachea el resultado de getTraversalResult y solo lo
+// recalcula cuando root o activeTraversal cambian — si el árbol no se modificó,
+// React reutiliza el array anterior sin volver a recorrer el árbol completo.
+// useCallback no aplica aquí porque no hay una función que pasar como prop,
+// sino un valor que consumir directamente en el JSX. Source: claude ai
 
-
-    const handleInsert = () => {
+const handleInsert = () => {
   const parsed = parseInt(inputValue, 10);
   if (isNaN(parsed)) {
     setErrorMessage("Por favor ingresa un número válido.");
@@ -52,7 +54,6 @@ export default function BSTVisualizer() {
   setInputValue("");
   setErrorMessage("");
 };
-  };
 
   // ── Random Insert ───────────────────────────────────────────────────────────
   const handleRandomInsert = () => {
@@ -78,15 +79,9 @@ export default function BSTVisualizer() {
   // ── Node Rendering ──────────────────────────────────────────────────────────
   /**
    * Función de render personalizada para cada nodo del árbol.
-   * TODO: El estudiante debe modificar esto para que los nodos
-   * que coincidan con `foundNode` se resalten visualmente.
    */
   const renderCustomNode = ({ nodeDatum }) => (
     <g>
-      {/* TODO: Cambiar el color del círculo si nodeDatum.name === String(foundNode) */}
-<circle r={20} fill="#4A90D9" stroke="#fff" strokeWidth={2} />
-
-// ✅ Después — color diferente si coincide con foundNode
 <circle
   r={20}
   fill={nodeDatum.name === String(foundNode) ? "#E85D4A" : "#4A90D9"}
@@ -128,8 +123,6 @@ export default function BSTVisualizer() {
             🎲 Aleatorio
           </button>
         </div>
-
-        {/* TODO: Renderizar errorMessage aquí cuando exista */}
 
         {errorMessage && (
   <p className={styles.errorMessage}>{errorMessage}</p>
