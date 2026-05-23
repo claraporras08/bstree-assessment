@@ -21,6 +21,7 @@ import styles from "./BSTVisualizer.module.css";
 // Cuando el árbol tiene 20+ nodos, el re-render se siente lento.
 // Pista: ¿qué hook de React sirve para memoizar una función?
 const getTraversalResult = (root, type) => {
+  
   switch (type) {
     case "inOrder":   return inOrder(root);
     case "preOrder":  return preOrder(root);
@@ -71,9 +72,10 @@ export default function BSTVisualizer() {
 
   // BUG #5 continúa: traversalResult se recalcula en cada render,
   // no solo cuando root o activeTraversal cambian.
-  const traversalResult = activeTraversal
-    ? getTraversalResult(root, activeTraversal)
-    : [];
+  const traversalResult = useMemo(
+  () => activeTraversal ? getTraversalResult(root, activeTraversal) : [],
+  [root, activeTraversal]
+  );
 
   // ── Node Rendering ──────────────────────────────────────────────────────────
   /**
