@@ -143,10 +143,10 @@ export const toD3Format = (node) => {
   // BUG: Si node.left es null pero node.right no, nunca se agrega node.right
   if (node.left !== null) {
     children.push(toD3Format(node.left));
+  }
 
-    if (node.right !== null) {
+  if (node.right !== null) {
       children.push(toD3Format(node.right));
-    }
   }
 
   return {
