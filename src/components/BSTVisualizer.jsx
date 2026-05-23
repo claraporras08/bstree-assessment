@@ -84,7 +84,15 @@ export default function BSTVisualizer() {
   const renderCustomNode = ({ nodeDatum }) => (
     <g>
       {/* TODO: Cambiar el color del círculo si nodeDatum.name === String(foundNode) */}
-      <circle r={20} fill="#4A90D9" stroke="#fff" strokeWidth={2} />
+<circle r={20} fill="#4A90D9" stroke="#fff" strokeWidth={2} />
+
+// ✅ Después — color diferente si coincide con foundNode
+<circle
+  r={20}
+  fill={nodeDatum.name === String(foundNode) ? "#E85D4A" : "#4A90D9"}
+  stroke="#fff"
+  strokeWidth={2}
+/>
       <text
         fill="white"
         textAnchor="middle"
