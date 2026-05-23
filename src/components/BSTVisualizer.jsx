@@ -41,9 +41,7 @@ export default function BSTVisualizer() {
   const handleInsert = () => {
     const parsed = parseInt(inputValue, 10);
 
-    // BUG #6 (UX): Acepta NaN silenciosamente. Si el usuario escribe
-    // "abc" y presiona insertar, no pasa nada y no hay feedback.
-    // El error se traga. Debes manejar este caso y mostrar el errorMessage.
+
     const handleInsert = () => {
   const parsed = parseInt(inputValue, 10);
   if (isNaN(parsed)) {
@@ -70,7 +68,7 @@ export default function BSTVisualizer() {
   };
 
   // ── Derived data ────────────────────────────────────────────────────────────
-  const d3Data     = root ? toD3Format(root) : null;
+  const d3Data = useMemo(() => root ? toD3Format(root) : null, [root]);
 
   const traversalResult = useMemo(
   () => activeTraversal ? getTraversalResult(root, activeTraversal) : [],
@@ -124,6 +122,10 @@ export default function BSTVisualizer() {
         </div>
 
         {/* TODO: Renderizar errorMessage aquí cuando exista */}
+
+        {errorMessage && (
+  <p className={styles.errorMessage}>{errorMessage}</p>
+)}
 
         <SearchBar
           value={searchTerm}
