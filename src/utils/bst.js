@@ -40,10 +40,10 @@ export const insert = (node, value) => {
 
   // BUG: La comparación siempre va a la derecha
   // Debería ir a la izquierda cuando value < node.value
-  if (value > node.value) {
+  if (value < node.value) {
     return {
       ...node,
-      right: insert(node.right, value),
+      left: insert(node.left, value),
     };
   }
 
