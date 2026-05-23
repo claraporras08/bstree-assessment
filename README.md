@@ -4,6 +4,18 @@
 
 ---
 
+## Demo
+
+### Video explicación
+[![BST Visualizer — Explicación técnica](https://img.youtube.com/vi/lBJ-hwdM3nc/0.jpg)](https://youtu.be/lBJ-hwdM3nc)
+
+### Árbol funcionando correctamente
+Valores insertados: `10, 5, 15, 3, 7` con búsqueda del nodo `7` resaltado.
+
+![BST funcionando correctamente](./bstpreview.png)
+
+---
+
 ## Objetivo
 
 Recibirás un proyecto React **intencionalmente roto e incompleto**. Tu misión es diagnosticar, corregir y extender el código como lo haría un desarrollador profesional en un entorno real.
