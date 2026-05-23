@@ -37,7 +37,13 @@ export default function BSTVisualizer() {
   const [foundNode, setFoundNode]         = useState(null);
   const [errorMessage, setErrorMessage]   = useState("");
 
-  // ── Insert ──────────────────────────────────────────────────────────────────
+// Se usa useMemo y no useCallback porque traversalResult es un valor calculado,
+// no una función. useMemo cachea el resultado de getTraversalResult y solo lo
+// recalcula cuando root o activeTraversal cambian — si el árbol no se modificó,
+// React reutiliza el array anterior sin volver a recorrer el árbol completo.
+// useCallback no aplica aquí porque no hay una función que pasar como prop,
+// sino un valor que consumir directamente en el JSX. Source: claude ai
+
 const handleInsert = () => {
   const parsed = parseInt(inputValue, 10);
   if (isNaN(parsed)) {
