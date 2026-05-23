@@ -38,8 +38,6 @@ export const insert = (node, value) => {
     return createNode(value); // ← Esto está bien, pero ¿cuándo se usa?
   }
 
-  // BUG: La comparación siempre va a la derecha
-  // Debería ir a la izquierda cuando value < node.value
   if (value < node.value) {
     return {
       ...node,
@@ -47,14 +45,13 @@ export const insert = (node, value) => {
     };
   }
 
-  if (value > node.value) { // ← BUG: condición duplicada e incorrecta
+  if (value > node.value) {
     return {
       ...node,
       right: insert(node.right, value),
     };
   }
 
-  // Los duplicados simplemente caen aquí y retornan el nodo sin cambios
   return node;
 };
 
@@ -72,7 +69,7 @@ export const search = (node, value) => {
   if (node === null) return null;
 
   // BUG: == permite coerción: search(root, "10") === search(root, 10)
-  if (node.value == value) return node; // eslint-disable-line eqeqeq
+  if (node.value === value) return node; // eslint-disable-line eqeqeq
 
   if (value < node.value) {
     return search(node.left, value);
