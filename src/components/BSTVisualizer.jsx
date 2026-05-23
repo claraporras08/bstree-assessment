@@ -17,9 +17,6 @@ import SearchBar from "./SearchBar";
 
 import styles from "./BSTVisualizer.module.css";
 
-// BUG #5 (Performance): Esta función se recrea en cada render.
-// Cuando el árbol tiene 20+ nodos, el re-render se siente lento.
-// Pista: ¿qué hook de React sirve para memoizar una función?
 const getTraversalResult = (root, type) => {
   
   switch (type) {
@@ -47,11 +44,16 @@ export default function BSTVisualizer() {
     // BUG #6 (UX): Acepta NaN silenciosamente. Si el usuario escribe
     // "abc" y presiona insertar, no pasa nada y no hay feedback.
     // El error se traga. Debes manejar este caso y mostrar el errorMessage.
-    if (!isNaN(parsed)) {
-      setRoot((prevRoot) => insert(prevRoot, parsed));
-      setInputValue("");
-      setErrorMessage("");
-    }
+    const handleInsert = () => {
+  const parsed = parseInt(inputValue, 10);
+  if (isNaN(parsed)) {
+    setErrorMessage("Por favor ingresa un número válido.");
+    return;
+  }
+  setRoot((prevRoot) => insert(prevRoot, parsed));
+  setInputValue("");
+  setErrorMessage("");
+};
   };
 
   // ── Random Insert ───────────────────────────────────────────────────────────
@@ -70,8 +72,6 @@ export default function BSTVisualizer() {
   // ── Derived data ────────────────────────────────────────────────────────────
   const d3Data     = root ? toD3Format(root) : null;
 
-  // BUG #5 continúa: traversalResult se recalcula en cada render,
-  // no solo cuando root o activeTraversal cambian.
   const traversalResult = useMemo(
   () => activeTraversal ? getTraversalResult(root, activeTraversal) : [],
   [root, activeTraversal]
